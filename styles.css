@@ -356,6 +356,10 @@ main {
     grid-template-columns: 1fr;
   }
 
+  .map-grid .panel {
+    grid-template-rows: auto auto auto;
+  }
+
   .metrics {
     grid-template-columns: 1fr;
   }
@@ -370,7 +374,7 @@ main {
   }
 
   .map-wrap {
-    min-height: 720px;
+    min-height: 0;
   }
 
   .norway-map {
