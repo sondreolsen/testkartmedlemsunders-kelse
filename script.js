@@ -3,7 +3,7 @@ const counties = [
   { name: "Troms", short: "Troms", now: 5.8, outlook: -13.7, path: "M176 92 L230 62 L238 126 L286 138 L262 190 L198 184 L160 140 Z", label: [218, 145] },
   { name: "Nordland", short: "Nordland", now: -0.7, outlook: -9.2, path: "M144 164 L202 194 L256 198 L240 276 L198 304 L144 268 L116 214 Z", label: [190, 240] },
   { name: "Trøndelag", short: "Trøndelag", now: -16.0, outlook: -20.0, path: "M128 286 L194 318 L238 298 L258 354 L228 404 L154 398 L108 344 Z", label: [184, 350] },
-  { name: "Møre og Romsdal", short: "Møre", now: 2.5, outlook: -10.7, path: "M70 386 L136 408 L158 456 L118 502 L56 478 L42 424 Z", label: [103, 445] },
+  { name: "Møre og Romsdal", short: "Møre og Romsdal", now: 2.5, outlook: -10.7, path: "M70 386 L136 408 L158 456 L118 502 L56 478 L42 424 Z", label: [103, 445] },
   { name: "Vestland", short: "Vestland", now: 9.9, outlook: -1.1, path: "M70 492 L124 512 L150 570 L124 650 L62 636 L34 560 Z", label: [91, 573] },
   { name: "Rogaland", short: "Rogaland", now: 18.8, outlook: -5.4, path: "M62 650 L126 662 L132 728 L66 736 L36 700 Z", label: [87, 696] },
   { name: "Agder", short: "Agder", now: -2.1, outlook: 0.7, path: "M134 666 L224 664 L244 724 L176 744 L132 728 Z", label: [183, 705] },
@@ -224,7 +224,7 @@ async function renderMap(svgId, metric) {
     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
     const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
     const [labelX, labelY] = countyLabelPositions[name] || project(countyLabelAnchors[name]);
-    const boxWidth = name.length > 12 ? 92 : 74;
+    const boxWidth = name.length > 12 ? 118 : 74;
 
     title.textContent = `${county.name}: ${signed(county[metric])}`;
     path.setAttribute("class", "county");
