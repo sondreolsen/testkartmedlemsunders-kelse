@@ -91,24 +91,12 @@ main {
 }
 
 .intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
-  gap: 22px;
-  align-items: stretch;
   margin-bottom: 22px;
 }
 
-.intro h2,
 .panel h2 {
   font-size: clamp(1.25rem, 2vw, 2.1rem);
   line-height: 1.08;
-}
-
-.intro p {
-  max-width: 760px;
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: 1.02rem;
 }
 
 .metrics {
@@ -350,7 +338,6 @@ main {
     text-align: left;
   }
 
-  .intro,
   .map-grid {
     grid-template-columns: 1fr;
   }
@@ -372,10 +359,4 @@ main {
     width: min(100%, 330px);
   }
 
-}
-
-@media (max-width: 1320px) and (min-width: 901px) {
-  .intro {
-    grid-template-columns: 1fr;
-  }
 }
