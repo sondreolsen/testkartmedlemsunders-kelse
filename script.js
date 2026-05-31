@@ -99,10 +99,12 @@ function renderMetrics() {
   const bestNow = counties.reduce((best, item) => item.now > best.now ? item : best);
   const worstNow = counties.reduce((worst, item) => item.now < worst.now ? item : worst);
   const bestOutlook = counties.reduce((best, item) => item.outlook > best.outlook ? item : best);
+  const worstOutlook = counties.reduce((worst, item) => item.outlook < worst.outlook ? item : worst);
 
   document.getElementById("bestNow").textContent = `${bestNow.name} ${signed(bestNow.now)}`;
   document.getElementById("worstNow").textContent = `${worstNow.name} ${signed(worstNow.now)}`;
   document.getElementById("bestOutlook").textContent = `${bestOutlook.name} ${signed(bestOutlook.outlook)}`;
+  document.getElementById("worstOutlook").textContent = `${worstOutlook.name} ${signed(worstOutlook.outlook)}`;
 }
 
 function renderAssociationBars() {
