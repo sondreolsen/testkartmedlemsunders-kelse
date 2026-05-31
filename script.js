@@ -119,15 +119,15 @@ function renderNetBars(containerId, metric, scale) {
   const sorted = [...associations].sort((a, b) => b.now - a.now);
   if (metric === "outlook") sorted.sort((a, b) => b.outlook - a.outlook);
   const container = document.getElementById(containerId);
-  const width = 1120;
+  const width = 1280;
   const height = 320;
-  const margin = { top: 24, right: 24, bottom: 34, left: 52 };
+  const margin = { top: 24, right: 8, bottom: 34, left: 42 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
   const min = scale.min;
   const max = scale.max;
   const zeroY = margin.top + (max / (max - min)) * plotH;
-  const barGap = 12;
+  const barGap = 6;
   const barW = (plotW - barGap * (sorted.length - 1)) / sorted.length;
   const y = (value) => margin.top + ((max - value) / (max - min)) * plotH;
 
@@ -181,9 +181,12 @@ function renderNetBars(containerId, metric, scale) {
 
   const logoStrip = document.createElement("div");
   logoStrip.className = "association-logo-strip";
-  sorted.forEach((item) => {
+  sorted.forEach((item, index) => {
+    const x = margin.left + index * (barW + barGap);
     const logo = document.createElement("div");
     logo.className = item.name.startsWith("NHO") ? "association-logo nho-logo" : "association-logo text-logo";
+    logo.style.left = `${(x / width) * 100}%`;
+    logo.style.width = `${(barW / width) * 100}%`;
 
     const name = document.createElement("span");
     name.className = "logo-name";
