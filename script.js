@@ -108,110 +108,46 @@ function renderMetrics() {
 }
 
 function renderAssociationBars() {
-  renderNetBars("associationBars", "now", { min: -40, max: 45 });
+  renderNetBars("associationBars", "now", 40);
 }
 
 function renderOutlookBars() {
-  renderNetBars("outlookBars", "outlook", { min: -32, max: 32 });
+  renderNetBars("outlookBars", "outlook", 32);
 }
 
-function renderNetBars(containerId, metric, scale) {
+function renderNetBars(containerId, metric, scaleMax) {
   const sorted = [...associations].sort((a, b) => b.now - a.now);
   if (metric === "outlook") sorted.sort((a, b) => b.outlook - a.outlook);
   const container = document.getElementById(containerId);
-  const width = 1280;
-  const height = 320;
-  const margin = { top: 24, right: 8, bottom: 34, left: 42 };
-  const plotW = width - margin.left - margin.right;
-  const plotH = height - margin.top - margin.bottom;
-  const min = scale.min;
-  const max = scale.max;
-  const zeroY = margin.top + (max / (max - min)) * plotH;
-  const barGap = 6;
-  const barW = (plotW - barGap * (sorted.length - 1)) / sorted.length;
-  const y = (value) => margin.top + ((max - value) / (max - min)) * plotH;
+  const chart = document.createElement("div");
+  chart.className = "horizontal-chart";
 
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "bar-svg");
-  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-  svg.setAttribute("role", "img");
-
-  const ticks = metric === "outlook" ? [-30, -15, 0, 15, 30] : [-30, -15, 0, 15, 30, 45];
-  ticks.forEach((tick) => {
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("class", tick === 0 ? "axis" : "grid-line");
-    line.setAttribute("x1", margin.left);
-    line.setAttribute("x2", width - margin.right);
-    line.setAttribute("y1", y(tick));
-    line.setAttribute("y2", y(tick));
-    svg.appendChild(line);
-
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.setAttribute("x", 12);
-    text.setAttribute("y", y(tick) + 4);
-    text.setAttribute("class", "bar-label");
-    text.textContent = `${tick}%`;
-    svg.appendChild(text);
-  });
-
-  sorted.forEach((item, index) => {
+  sorted.forEach((item) => {
     const metricValue = item[metric];
-    const x = margin.left + index * (barW + barGap);
-    const top = metricValue >= 0 ? y(metricValue) : zeroY;
-    const h = Math.abs(y(metricValue) - zeroY);
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    rect.setAttribute("x", x);
-    rect.setAttribute("y", top);
-    rect.setAttribute("width", Math.max(barW, 2));
-    rect.setAttribute("height", Math.max(h, 1));
-    rect.setAttribute("rx", "4");
-    rect.setAttribute("fill", metricValue >= 0 ? "#0b72b9" : "#d45a54");
-    svg.appendChild(rect);
-
-    const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    value.setAttribute("class", "bar-value");
-    value.setAttribute("x", x + barW / 2);
-    value.setAttribute("y", metricValue >= 0 ? top - 8 : top + h + 16);
-    value.setAttribute("text-anchor", "middle");
-    value.textContent = signed(metricValue);
-    svg.appendChild(value);
-  });
-
-  container.appendChild(svg);
-
-  const logoStrip = document.createElement("div");
-  logoStrip.className = "association-logo-strip";
-  sorted.forEach((item, index) => {
-    const x = margin.left + index * (barW + barGap);
-    const logo = document.createElement("div");
-    logo.className = item.name.startsWith("NHO") ? "association-logo nho-logo" : "association-logo text-logo";
-    logo.style.left = `${(x / width) * 100}%`;
-    logo.style.width = `${(barW / width) * 100}%`;
+    const row = document.createElement("div");
+    row.className = "horizontal-row";
 
     const name = document.createElement("span");
-    name.className = "logo-name";
-    name.textContent = logoLabel(item.name);
+    name.className = "association-name";
+    name.textContent = associationDisplayName(item.name);
 
-    if (item.name.startsWith("NHO")) {
-      const image = document.createElement("img");
-      image.className = "logo-image";
-      image.src = "assets/logos/nho.svg";
-      image.alt = "";
-      logo.append(image);
-    } else {
-      const wordmark = document.createElement("span");
-      wordmark.className = "logo-wordmark";
-      wordmark.textContent = logoLabel(item.name);
-      logo.append(wordmark);
-    }
+    const track = document.createElement("div");
+    track.className = "horizontal-track";
 
-    logo.title = item.name;
-    if (item.name.startsWith("NHO")) {
-      logo.append(name);
-    }
-    logoStrip.appendChild(logo);
+    const bar = document.createElement("span");
+    bar.className = metricValue >= 0 ? "horizontal-bar positive" : "horizontal-bar negative";
+    bar.style.width = `${Math.min(Math.abs(metricValue) / scaleMax, 1) * 50}%`;
+
+    const value = document.createElement("span");
+    value.className = "horizontal-value";
+    value.textContent = signed(metricValue);
+
+    track.append(bar);
+    row.append(name, track, value);
+    chart.appendChild(row);
   });
-  container.appendChild(logoStrip);
+
+  container.appendChild(chart);
 }
 
 function logoMark(name) {
@@ -234,6 +170,11 @@ function logoLabel(name) {
     .replace("NHO Service og Handel", "Service/Handel")
     .replace("NHO Mat og Drikke", "Mat/Drikke")
     .replace("NHO ", "");
+}
+
+function associationDisplayName(name) {
+  if (name === "Mediebedriftenes Landsforening") return "Mediebedriftenes Landsforening (MBL)";
+  return name;
 }
 
 renderMetrics();
