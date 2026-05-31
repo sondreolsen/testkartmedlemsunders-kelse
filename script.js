@@ -51,9 +51,9 @@ function signed(value, decimals = 1) {
 
 function colorFor(value, min, max) {
   if (Math.abs(value) < 0.6) return "#d4d8dc";
-  const red = [143, 22, 38];
+  const red = [143, 40, 48];
   const grey = [212, 216, 220];
-  const blue = [0, 58, 117];
+  const blue = [31, 91, 141];
   const t = value < 0 ? Math.min(Math.abs(value / min), 1) : Math.min(value / max, 1);
   const from = grey;
   const to = value < 0 ? red : blue;

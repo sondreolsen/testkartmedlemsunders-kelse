@@ -1,17 +1,18 @@
 :root {
-  --ink: #081f2d;
-  --muted: #64717b;
+  --ink: #2d3748;
+  --muted: #687789;
   --line: #d7e0e6;
-  --paper: #f6f8f9;
+  --paper: #f7f8fa;
   --panel: #ffffff;
-  --blue: #004b8d;
-  --blue-2: #0b72b9;
-  --red: #9f1d2a;
+  --header: #5c7691;
+  --blue: #1f5b8d;
+  --blue-2: #2f78ad;
+  --red: #8f2830;
   --red-2: #d45a54;
   --grey: #d4d8dc;
   --green: #15906c;
   --amber: #c8a451;
-  --shadow: 0 18px 44px rgba(8, 31, 45, 0.08);
+  --shadow: 0 12px 30px rgba(45, 55, 72, 0.1);
 }
 
 * {
@@ -22,7 +23,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.45;
 }
 
@@ -32,7 +33,7 @@ body {
   justify-content: space-between;
   gap: 24px;
   padding: 28px clamp(18px, 4vw, 56px);
-  background: var(--ink);
+  background: var(--header);
   color: #fff;
 }
 
@@ -51,7 +52,7 @@ p {
 
 .eyebrow {
   margin-bottom: 8px;
-  color: var(--blue-2);
+  color: var(--header);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -59,7 +60,7 @@ p {
 }
 
 .topbar .eyebrow {
-  color: #8cc7ee;
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .stamp {
@@ -95,8 +96,10 @@ main {
 }
 
 .panel h2 {
+  color: var(--header);
   font-size: clamp(1.25rem, 2vw, 2.1rem);
   line-height: 1.08;
+  font-weight: 800;
 }
 
 .metrics {
@@ -115,8 +118,9 @@ main {
 }
 
 .metrics div {
+  position: relative;
   min-height: 86px;
-  padding: 14px;
+  padding: 15px 16px 15px 54px;
 }
 
 .metrics span {
@@ -132,6 +136,29 @@ main {
   font-size: clamp(1rem, 1.45vw, 1.36rem);
   line-height: 1.05;
   white-space: nowrap;
+}
+
+.metric-icon {
+  position: absolute;
+  left: 16px;
+  top: 17px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.metric-card.positive .metric-icon {
+  background: rgba(47, 120, 173, 0.13);
+  color: var(--blue);
+}
+
+.metric-card.negative .metric-icon {
+  background: rgba(143, 40, 48, 0.12);
+  color: var(--red);
 }
 
 .map-grid {
@@ -242,13 +269,14 @@ main {
   align-items: center;
   color: var(--muted);
   font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .legend i {
   display: block;
   height: 12px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #8f1626, #d1d5d9 50%, #003a75);
+  background: linear-gradient(90deg, #8f2830, #d1d5d9 50%, #1f5b8d);
 }
 
 .bar-chart {
@@ -328,7 +356,7 @@ main {
   }
 
   .metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .formula {
@@ -342,6 +370,10 @@ main {
 
   .norway-map {
     width: min(100%, 360px);
+  }
+
+  .map-grid .panel + .panel {
+    border-top: 4px solid rgba(92, 118, 145, 0.2);
   }
 
   .horizontal-row {
