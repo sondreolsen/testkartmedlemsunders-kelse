@@ -257,7 +257,7 @@ main {
 .map-wrap {
   min-height: 720px;
   display: grid;
-  place-items: center;
+  place-items: start center;
 }
 
 .norway-map {
@@ -362,7 +362,11 @@ main {
 
   .formula {
     display: inline-block;
-    margin-top: 12px;
+    margin-top: 8px;
+  }
+
+  .panel-head {
+    margin-bottom: 8px;
   }
 
   .map-wrap {
