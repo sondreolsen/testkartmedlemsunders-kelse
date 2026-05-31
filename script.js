@@ -106,15 +106,24 @@ function renderMetrics() {
 }
 
 function renderAssociationBars() {
+  renderNetBars("associationBars", "now", { min: -40, max: 45 });
+}
+
+function renderOutlookBars() {
+  renderNetBars("outlookBars", "outlook", { min: -32, max: 32 });
+}
+
+function renderNetBars(containerId, metric, scale) {
   const sorted = [...associations].sort((a, b) => b.now - a.now);
-  const container = document.getElementById("associationBars");
+  if (metric === "outlook") sorted.sort((a, b) => b.outlook - a.outlook);
+  const container = document.getElementById(containerId);
   const width = 1120;
   const height = 320;
   const margin = { top: 24, right: 24, bottom: 34, left: 52 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
-  const min = -40;
-  const max = 45;
+  const min = scale.min;
+  const max = scale.max;
   const zeroY = margin.top + (max / (max - min)) * plotH;
   const barGap = 12;
   const barW = (plotW - barGap * (sorted.length - 1)) / sorted.length;
@@ -125,7 +134,8 @@ function renderAssociationBars() {
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   svg.setAttribute("role", "img");
 
-  [-30, -15, 0, 15, 30, 45].forEach((tick) => {
+  const ticks = metric === "outlook" ? [-30, -15, 0, 15, 30] : [-30, -15, 0, 15, 30, 45];
+  ticks.forEach((tick) => {
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     line.setAttribute("class", tick === 0 ? "axis" : "grid-line");
     line.setAttribute("x1", margin.left);
@@ -143,24 +153,25 @@ function renderAssociationBars() {
   });
 
   sorted.forEach((item, index) => {
+    const metricValue = item[metric];
     const x = margin.left + index * (barW + barGap);
-    const top = item.now >= 0 ? y(item.now) : zeroY;
-    const h = Math.abs(y(item.now) - zeroY);
+    const top = metricValue >= 0 ? y(metricValue) : zeroY;
+    const h = Math.abs(y(metricValue) - zeroY);
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     rect.setAttribute("x", x);
     rect.setAttribute("y", top);
     rect.setAttribute("width", Math.max(barW, 2));
     rect.setAttribute("height", Math.max(h, 1));
     rect.setAttribute("rx", "4");
-    rect.setAttribute("fill", item.now >= 0 ? "#0b72b9" : "#d45a54");
+    rect.setAttribute("fill", metricValue >= 0 ? "#0b72b9" : "#d45a54");
     svg.appendChild(rect);
 
     const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
     value.setAttribute("class", "bar-value");
     value.setAttribute("x", x + barW / 2);
-    value.setAttribute("y", item.now >= 0 ? top - 8 : top + h + 16);
+    value.setAttribute("y", metricValue >= 0 ? top - 8 : top + h + 16);
     value.setAttribute("text-anchor", "middle");
-    value.textContent = signed(item.now);
+    value.textContent = signed(metricValue);
     svg.appendChild(value);
   });
 
@@ -199,44 +210,8 @@ function logoMark(name) {
   return name.slice(0, 3).toUpperCase();
 }
 
-function renderStacks() {
-  const container = document.getElementById("outlookStacks");
-  const sorted = [...associations].sort((a, b) => b.outlook - a.outlook);
-
-  sorted.forEach((item) => {
-    const row = document.createElement("div");
-    row.className = "stack-row";
-
-    const name = document.createElement("div");
-    name.className = "stack-name";
-    name.textContent = item.name;
-
-    const bar = document.createElement("div");
-    bar.className = "stack-bar";
-    bar.title = `${item.name}: Bedring ${formatNumber(item.better)} %, Uendret ${formatNumber(item.unchanged)} %, Forverring ${formatNumber(item.worse)} %`;
-
-    const better = document.createElement("span");
-    better.className = "better";
-    better.style.width = `${item.better}%`;
-    const unchanged = document.createElement("span");
-    unchanged.className = "unchanged";
-    unchanged.style.width = `${item.unchanged}%`;
-    const worse = document.createElement("span");
-    worse.className = "worse";
-    worse.style.width = `${item.worse}%`;
-    bar.append(better, unchanged, worse);
-
-    const net = document.createElement("div");
-    net.className = "stack-net";
-    net.textContent = signed(item.outlook);
-
-    row.append(name, bar, net);
-    container.appendChild(row);
-  });
-}
-
 renderMetrics();
 renderMap("mapNow", "now");
 renderMap("mapOutlook", "outlook");
 renderAssociationBars();
-renderStacks();
+renderOutlookBars();

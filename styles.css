@@ -316,78 +316,6 @@ main {
   line-height: 1.05;
 }
 
-.stack-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 16px;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.stack-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.stack-legend i {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-}
-
-.better {
-  background: var(--blue-2);
-}
-
-.unchanged {
-  background: var(--grey);
-}
-
-.worse {
-  background: var(--red-2);
-}
-
-.stacked-list {
-  display: grid;
-  gap: 10px;
-}
-
-.stack-row {
-  display: grid;
-  grid-template-columns: minmax(130px, 260px) minmax(180px, 1fr) 56px;
-  gap: 14px;
-  align-items: center;
-}
-
-.stack-name {
-  min-width: 0;
-  font-size: 0.9rem;
-  font-weight: 800;
-}
-
-.stack-bar {
-  display: flex;
-  height: 27px;
-  overflow: hidden;
-  border-radius: 5px;
-  background: #eef2f4;
-}
-
-.stack-bar span {
-  display: block;
-  min-width: 1px;
-}
-
-.stack-net {
-  color: var(--muted);
-  font-size: 0.86rem;
-  font-weight: 800;
-  text-align: right;
-}
-
 .note {
   margin-top: 22px;
   padding: 16px 18px;
@@ -431,14 +359,6 @@ main {
     width: min(100%, 330px);
   }
 
-  .stack-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .stack-net {
-    text-align: left;
-  }
 }
 
 @media (max-width: 1320px) and (min-width: 901px) {
