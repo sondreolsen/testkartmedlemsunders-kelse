@@ -80,21 +80,21 @@ const countyLabelAnchors = {
 };
 
 const countyLabelPositions = {
-  "Finnmark": [245, 128],
-  "Troms": [170, 172],
-  "Nordland": [126, 296],
-  "Trøndelag": [113, 430],
-  "Møre og Romsdal": [78, 498],
-  "Vestland": [72, 555],
-  "Rogaland": [82, 660],
-  "Agder": [158, 710],
-  "Telemark": [145, 620],
-  "Vestfold": [218, 650],
-  "Østfold": [288, 628],
-  "Oslo": [276, 594],
-  "Akershus": [276, 560],
-  "Buskerud": [180, 565],
-  "Innlandet": [158, 520]
+  "Finnmark": [290, 214],
+  "Troms": [222, 244],
+  "Nordland": [168, 318],
+  "Trøndelag": [112, 414],
+  "Møre og Romsdal": [58, 442],
+  "Vestland": [48, 493],
+  "Rogaland": [38, 565],
+  "Agder": [82, 704],
+  "Telemark": [154, 690],
+  "Vestfold": [232, 660],
+  "Østfold": [244, 608],
+  "Oslo": [222, 572],
+  "Akershus": [230, 534],
+  "Buskerud": [112, 612],
+  "Innlandet": [126, 532]
 };
 
 let countyGeoJsonPromise;
@@ -115,7 +115,29 @@ function countyName(feature) {
 
 function projectRaw(coord) {
   const [lon, lat] = coord;
-  return [(lon - (lat - 64) * 0.72) * 0.32, -lat];
+  const a = 6378137;
+  const e2 = 0.00669438;
+  const k0 = 0.9996;
+  const lon0 = 15 * Math.PI / 180;
+  const phi = lat * Math.PI / 180;
+  const lambda = lon * Math.PI / 180;
+  const ep2 = e2 / (1 - e2);
+  const sinPhi = Math.sin(phi);
+  const cosPhi = Math.cos(phi);
+  const tanPhi = Math.tan(phi);
+  const n = a / Math.sqrt(1 - e2 * sinPhi * sinPhi);
+  const t = tanPhi * tanPhi;
+  const c = ep2 * cosPhi * cosPhi;
+  const aa = (lambda - lon0) * cosPhi;
+  const m = a * (
+    (1 - e2 / 4 - 3 * e2 ** 2 / 64 - 5 * e2 ** 3 / 256) * phi
+    - (3 * e2 / 8 + 3 * e2 ** 2 / 32 + 45 * e2 ** 3 / 1024) * Math.sin(2 * phi)
+    + (15 * e2 ** 2 / 256 + 45 * e2 ** 3 / 1024) * Math.sin(4 * phi)
+    - (35 * e2 ** 3 / 3072) * Math.sin(6 * phi)
+  );
+  const x = k0 * n * (aa + (1 - t + c) * aa ** 3 / 6 + (5 - 18 * t + t ** 2 + 72 * c - 58 * ep2) * aa ** 5 / 120);
+  const y = k0 * (m + n * tanPhi * (aa ** 2 / 2 + (5 - t + 9 * c + 4 * c ** 2) * aa ** 4 / 24 + (61 - 58 * t + t ** 2 + 600 * c - 330 * ep2) * aa ** 6 / 720));
+  return [x, -y];
 }
 
 function walkCoordinates(coordinates, visit) {
