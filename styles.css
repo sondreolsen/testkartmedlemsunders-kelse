@@ -134,8 +134,9 @@ main {
 .metrics span {
   display: block;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: clamp(0.68rem, 0.82vw, 0.8rem);
   font-weight: 700;
+  line-height: 1.15;
 }
 
 .metrics strong {
