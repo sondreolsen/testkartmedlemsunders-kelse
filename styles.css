@@ -185,13 +185,13 @@ main {
 }
 
 .norway-map {
-  width: min(100%, 430px);
+  width: min(100%, 460px);
   height: auto;
 }
 
 .county {
   stroke: #fff;
-  stroke-width: 4;
+  stroke-width: 1.4;
   vector-effect: non-scaling-stroke;
   cursor: pointer;
   transition: filter 140ms ease, transform 140ms ease;
@@ -203,26 +203,28 @@ main {
   outline: none;
 }
 
+.county-label-box {
+  fill: rgba(255, 255, 255, 0.88);
+  stroke: rgba(8, 31, 45, 0.16);
+  stroke-width: 0.8;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
 .county-label {
-  fill: #fff;
-  font-size: 15px;
+  fill: var(--ink);
+  font-size: 9.2px;
   font-weight: 800;
   pointer-events: none;
   text-anchor: middle;
-  paint-order: stroke;
-  stroke: rgba(8, 31, 45, 0.42);
-  stroke-width: 3px;
 }
 
 .county-value {
-  fill: #fff;
-  font-size: 13px;
-  font-weight: 700;
+  fill: var(--ink);
+  font-size: 8.8px;
+  font-weight: 900;
   pointer-events: none;
   text-anchor: middle;
-  paint-order: stroke;
-  stroke: rgba(8, 31, 45, 0.46);
-  stroke-width: 3px;
 }
 
 .legend {
