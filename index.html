@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NHO Medlemsundersøkelsen mai 2026</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">NHOs medlemsundersøkelse</p>
+        <h1>Markedet i fylker og landsforeninger</h1>
+      </div>
+      <div class="stamp">
+        <span>Mai 2026</span>
+        <strong>28.04-06.05</strong>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <h2>Et delt næringsliv</h2>
+          <p>
+            Kartene viser netto differanser per fylke. Blått betyr positiv
+            overvekt, rødt betyr negativ overvekt, og grått ligger nær balanse.
+          </p>
+        </div>
+        <div class="metrics" aria-label="Nøkkeltall">
+          <div>
+            <span>Beste nå</span>
+            <strong id="bestNow">-</strong>
+          </div>
+          <div>
+            <span>Svakest nå</span>
+            <strong id="worstNow">-</strong>
+          </div>
+          <div>
+            <span>Beste utsikt</span>
+            <strong id="bestOutlook">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="map-grid" aria-label="Fylkeskart">
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Fylker</p>
+              <h2>Markedssituasjonen akkurat nå</h2>
+            </div>
+            <p class="formula">Netto: God - Dårlig</p>
+          </div>
+          <div class="map-wrap">
+            <svg id="mapNow" class="norway-map" viewBox="0 0 360 760" role="img" aria-labelledby="mapNowTitle">
+              <title id="mapNowTitle">Markedssituasjon per fylke</title>
+            </svg>
+          </div>
+          <div class="legend">
+            <span>Mørkerød</span>
+            <i></i>
+            <span>Mørkeblå</span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Fylker</p>
+              <h2>Markedsutsikter neste 6 måneder</h2>
+            </div>
+            <p class="formula">Netto: Bedring - Forverring</p>
+          </div>
+          <div class="map-wrap">
+            <svg id="mapOutlook" class="norway-map" viewBox="0 0 360 760" role="img" aria-labelledby="mapOutlookTitle">
+              <title id="mapOutlookTitle">Markedsutsikter per fylke</title>
+            </svg>
+          </div>
+          <div class="legend">
+            <span>Mørkerød</span>
+            <i></i>
+            <span>Mørkeblå</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Landsforeninger</p>
+            <h2>Nåsituasjonen: spriket mellom topp og bunn</h2>
+          </div>
+          <p class="formula">Netto: God - Dårlig</p>
+        </div>
+        <div id="associationBars" class="bar-chart" aria-label="Stående søylediagram for landsforeninger"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Landsforeninger</p>
+            <h2>Utsiktene fremover</h2>
+          </div>
+          <p class="formula">Andel Bedring, Uendret og Forverring</p>
+        </div>
+        <div class="stack-legend">
+          <span><i class="better"></i>Bedring</span>
+          <span><i class="unchanged"></i>Uendret</span>
+          <span><i class="worse"></i>Forverring</span>
+        </div>
+        <div id="outlookStacks" class="stacked-list" aria-label="Stablet søylediagram for landsforeninger"></div>
+      </section>
+
+      <section class="note">
+        <strong>Kilde:</strong> Resultater Mai 2026.xlsx, 79. kjøring (28.04-06.05).
+        Svalbard er holdt utenfor fylkeskartet fordi det ikke er et fylke i Norge i 2026.
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
