@@ -197,13 +197,13 @@ main {
 }
 
 .map-wrap {
-  min-height: 700px;
+  min-height: 720px;
   display: grid;
   place-items: center;
 }
 
 .norway-map {
-  width: min(100%, 560px);
+  width: min(100%, 640px);
   height: auto;
 }
 
@@ -297,11 +297,11 @@ main {
   }
 
   .map-wrap {
-    min-height: 690px;
+    min-height: 720px;
   }
 
   .norway-map {
-    width: min(100%, 360px);
+    width: min(100%, 410px);
   }
 
   .map-grid .panel + .panel {
