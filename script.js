@@ -181,18 +181,29 @@ function renderNetBars(containerId, metric, scale) {
   logoStrip.className = "association-logo-strip";
   sorted.forEach((item) => {
     const logo = document.createElement("div");
-    logo.className = item.name.startsWith("NHO") ? "association-logo nho-logo" : "association-logo";
-
-    const mark = document.createElement("span");
-    mark.className = "logo-mark";
-    mark.textContent = logoMark(item.name);
+    logo.className = item.name.startsWith("NHO") ? "association-logo nho-logo" : "association-logo text-logo";
 
     const name = document.createElement("span");
     name.className = "logo-name";
-    name.textContent = item.name;
+    name.textContent = logoLabel(item.name);
+
+    if (item.name.startsWith("NHO")) {
+      const image = document.createElement("img");
+      image.className = "logo-image";
+      image.src = "assets/logos/nho.svg";
+      image.alt = "";
+      logo.append(image);
+    } else {
+      const wordmark = document.createElement("span");
+      wordmark.className = "logo-wordmark";
+      wordmark.textContent = logoLabel(item.name);
+      logo.append(wordmark);
+    }
 
     logo.title = item.name;
-    logo.append(mark, name);
+    if (item.name.startsWith("NHO")) {
+      logo.append(name);
+    }
     logoStrip.appendChild(logo);
   });
   container.appendChild(logoStrip);
@@ -208,6 +219,16 @@ function logoMark(name) {
   if (name.includes("Norsk Industri")) return "NI";
   if (name.startsWith("NHO")) return "NHO";
   return name.slice(0, 3).toUpperCase();
+}
+
+function logoLabel(name) {
+  return name
+    .replace("Norges Bilbransjeforbund (NBF)", "Bilbransjen")
+    .replace("Mediebedriftenes Landsforening", "Mediebedriftene")
+    .replace("NHO Logistikk og Transport", "Logistikk")
+    .replace("NHO Service og Handel", "Service/Handel")
+    .replace("NHO Mat og Drikke", "Mat/Drikke")
+    .replace("NHO ", "");
 }
 
 renderMetrics();

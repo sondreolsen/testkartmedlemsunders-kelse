@@ -244,7 +244,7 @@ main {
 }
 
 .bar-chart {
-  min-height: 390px;
+  min-height: 418px;
   overflow-x: auto;
 }
 
@@ -275,45 +275,56 @@ main {
 
 .association-logo-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
-  gap: 7px;
-  margin-top: 8px;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 6px;
+  padding-left: 52px;
+  padding-right: 24px;
 }
 
 .association-logo {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  gap: 7px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: 44px;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: 56px;
   border: 1px solid #cfd8de;
   border-radius: 6px;
-  padding: 6px 7px;
+  padding: 5px 3px;
   background: #fff;
 }
 
-.logo-mark {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 30px;
-  border-radius: 4px;
-  background: var(--ink);
-  color: #fff;
-  font-size: 0.62rem;
-  font-weight: 900;
+.logo-image {
+  display: block;
+  width: min(42px, 92%);
+  height: 18px;
+  object-fit: contain;
 }
 
-.nho-logo .logo-mark {
-  background: var(--blue);
+.logo-wordmark {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 34px;
+  color: #001f33;
+  font-size: 0.56rem;
+  font-weight: 950;
+  line-height: 0.98;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .logo-name {
   min-width: 0;
   color: var(--ink);
-  font-size: 0.68rem;
+  max-width: 100%;
+  font-size: 0.55rem;
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .note {
