@@ -351,5 +351,3 @@ function associationDisplayName(name) {
 renderMetrics();
 renderMap("mapNow", "now");
 renderMap("mapOutlook", "outlook");
-renderAssociationBars();
-renderOutlookBars();
