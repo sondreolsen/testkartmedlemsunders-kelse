@@ -212,11 +212,16 @@ async function renderMap(svgId, metric) {
   const project = createProjection(geoJson.features, 520, 720, 14);
 
   svg.innerHTML = "";
+  const countyLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const labelLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  svg.append(countyLayer, labelLayer);
+
   geoJson.features.forEach((feature) => {
     const name = countyName(feature);
     const county = counties.find((item) => item.name === name);
     if (!county) return;
-    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    const countyGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    const labelGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
     const callout = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -258,10 +263,12 @@ async function renderMap(svgId, metric) {
     value.setAttribute("y", labelY + 10);
     value.textContent = signed(county[metric]);
 
-    group.append(title, path);
-    if (countyCalloutTargets[name]) group.appendChild(callout);
-    group.append(box, label, value);
-    svg.appendChild(group);
+    countyGroup.append(title, path);
+    countyLayer.appendChild(countyGroup);
+
+    if (countyCalloutTargets[name]) labelGroup.appendChild(callout);
+    labelGroup.append(box, label, value);
+    labelLayer.appendChild(labelGroup);
   });
 }
 
