@@ -54,7 +54,8 @@ function colorFor(value, min, max) {
   const red = [143, 40, 48];
   const grey = [212, 216, 220];
   const blue = [31, 91, 141];
-  const t = value < 0 ? Math.min(Math.abs(value / min), 1) : Math.min(value / max, 1);
+  const domain = Math.max(Math.abs(min), Math.abs(max), 1);
+  const t = Math.min(Math.abs(value) / domain, 1);
   const from = grey;
   const to = value < 0 ? red : blue;
   const rgb = from.map((channel, index) => Math.round(channel + (to[index] - channel) * t));
