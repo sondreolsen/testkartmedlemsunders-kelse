@@ -165,12 +165,22 @@ main {
 .map-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
   gap: 22px;
   margin-bottom: 22px;
 }
 
 .panel {
   padding: clamp(16px, 2.4vw, 26px);
+}
+
+.map-grid .panel {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.map-grid .panel + .panel {
+  margin-top: 0;
 }
 
 .panel + .panel {
