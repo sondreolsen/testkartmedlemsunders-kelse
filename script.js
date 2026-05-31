@@ -109,8 +109,8 @@ function renderAssociationBars() {
   const sorted = [...associations].sort((a, b) => b.now - a.now);
   const container = document.getElementById("associationBars");
   const width = 1120;
-  const height = 430;
-  const margin = { top: 24, right: 24, bottom: 150, left: 52 };
+  const height = 320;
+  const margin = { top: 24, right: 24, bottom: 34, left: 52 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
   const min = -40;
@@ -162,18 +162,41 @@ function renderAssociationBars() {
     value.setAttribute("text-anchor", "middle");
     value.textContent = signed(item.now);
     svg.appendChild(value);
-
-    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    label.setAttribute("class", "bar-label");
-    label.setAttribute("x", x + barW / 2);
-    label.setAttribute("y", height - 22);
-    label.setAttribute("text-anchor", "end");
-    label.setAttribute("transform", `rotate(-52 ${x + barW / 2} ${height - 22})`);
-    label.textContent = item.name;
-    svg.appendChild(label);
   });
 
   container.appendChild(svg);
+
+  const logoStrip = document.createElement("div");
+  logoStrip.className = "association-logo-strip";
+  sorted.forEach((item) => {
+    const logo = document.createElement("div");
+    logo.className = item.name.startsWith("NHO") ? "association-logo nho-logo" : "association-logo";
+
+    const mark = document.createElement("span");
+    mark.className = "logo-mark";
+    mark.textContent = logoMark(item.name);
+
+    const name = document.createElement("span");
+    name.className = "logo-name";
+    name.textContent = item.name;
+
+    logo.title = item.name;
+    logo.append(mark, name);
+    logoStrip.appendChild(logo);
+  });
+  container.appendChild(logoStrip);
+}
+
+function logoMark(name) {
+  if (name.includes("Offshore")) return "ON";
+  if (name.includes("Finans")) return "FN";
+  if (name.includes("Fornybar")) return "FOR";
+  if (name.includes("Sjømat")) return "SJ";
+  if (name.includes("Medie")) return "MBL";
+  if (name.includes("Bilbransje")) return "NBF";
+  if (name.includes("Norsk Industri")) return "NI";
+  if (name.startsWith("NHO")) return "NHO";
+  return name.slice(0, 3).toUpperCase();
 }
 
 function renderStacks() {
