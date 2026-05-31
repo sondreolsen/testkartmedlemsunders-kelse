@@ -179,13 +179,13 @@ main {
 }
 
 .map-wrap {
-  min-height: 580px;
+  min-height: 700px;
   display: grid;
   place-items: center;
 }
 
 .norway-map {
-  width: min(100%, 460px);
+  width: min(100%, 560px);
   height: auto;
 }
 
@@ -211,9 +211,17 @@ main {
   vector-effect: non-scaling-stroke;
 }
 
+.county-callout {
+  stroke: rgba(8, 31, 45, 0.55);
+  stroke-width: 1;
+  stroke-linecap: round;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
 .county-label {
   fill: var(--ink);
-  font-size: 9.2px;
+  font-size: 12.5px;
   font-weight: 800;
   pointer-events: none;
   text-anchor: middle;
@@ -221,7 +229,7 @@ main {
 
 .county-value {
   fill: var(--ink);
-  font-size: 8.8px;
+  font-size: 12px;
   font-weight: 900;
   pointer-events: none;
   text-anchor: middle;
@@ -329,11 +337,11 @@ main {
   }
 
   .map-wrap {
-    min-height: 430px;
+    min-height: 690px;
   }
 
   .norway-map {
-    width: min(100%, 330px);
+    width: min(100%, 360px);
   }
 
   .horizontal-row {

@@ -80,21 +80,31 @@ const countyLabelAnchors = {
 };
 
 const countyLabelPositions = {
-  "Finnmark": [290, 214],
-  "Troms": [222, 244],
-  "Nordland": [168, 318],
-  "Trøndelag": [112, 414],
-  "Møre og Romsdal": [58, 442],
-  "Vestland": [48, 493],
-  "Rogaland": [38, 565],
-  "Agder": [82, 704],
-  "Telemark": [154, 690],
-  "Vestfold": [232, 660],
-  "Østfold": [244, 608],
-  "Oslo": [222, 572],
-  "Akershus": [230, 534],
-  "Buskerud": [112, 612],
-  "Innlandet": [126, 532]
+  "Finnmark": [430, 124],
+  "Troms": [315, 154],
+  "Nordland": [246, 256],
+  "Trøndelag": [174, 408],
+  "Møre og Romsdal": [86, 452],
+  "Vestland": [62, 528],
+  "Rogaland": [42, 620],
+  "Agder": [80, 674],
+  "Telemark": [164, 676],
+  "Vestfold": [236, 666],
+  "Østfold": [270, 622],
+  "Oslo": [270, 586],
+  "Akershus": [278, 548],
+  "Buskerud": [226, 522],
+  "Innlandet": [148, 522]
+};
+
+const countyCalloutTargets = {
+  "Akershus": [162, 580],
+  "Oslo": [153, 583],
+  "Østfold": [163, 613],
+  "Vestfold": [138, 612],
+  "Telemark": [100, 602],
+  "Buskerud": [115, 567],
+  "Agder": [81, 628]
 };
 
 let countyGeoJsonPromise;
@@ -200,7 +210,7 @@ async function renderMap(svgId, metric) {
   const values = counties.map((county) => county[metric]);
   const min = Math.min(...values);
   const max = Math.max(...values);
-  const project = createProjection(geoJson.features, 360, 760, 12);
+  const project = createProjection(geoJson.features, 520, 720, 14);
 
   svg.innerHTML = "";
   geoJson.features.forEach((feature) => {
@@ -210,6 +220,7 @@ async function renderMap(svgId, metric) {
     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+    const callout = document.createElementNS("http://www.w3.org/2000/svg", "line");
     const box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
     const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
@@ -221,6 +232,15 @@ async function renderMap(svgId, metric) {
     path.setAttribute("d", geometryToPath(feature.geometry, project));
     path.setAttribute("fill", colorFor(county[metric], min, max));
     path.setAttribute("tabindex", "0");
+
+    if (countyCalloutTargets[name]) {
+      const [targetX, targetY] = countyCalloutTargets[name];
+      callout.setAttribute("class", "county-callout");
+      callout.setAttribute("x1", targetX);
+      callout.setAttribute("y1", targetY);
+      callout.setAttribute("x2", labelX);
+      callout.setAttribute("y2", labelY);
+    }
 
     box.setAttribute("class", "county-label-box");
     box.setAttribute("x", labelX - boxWidth / 2);
@@ -239,7 +259,9 @@ async function renderMap(svgId, metric) {
     value.setAttribute("y", labelY + 10);
     value.textContent = signed(county[metric]);
 
-    group.append(title, path, box, label, value);
+    group.append(title, path);
+    if (countyCalloutTargets[name]) group.appendChild(callout);
+    group.append(box, label, value);
     svg.appendChild(group);
   });
 }
