@@ -93,7 +93,7 @@ const countyLabelPositions = {
   "Østfold": [270, 622],
   "Oslo": [270, 586],
   "Akershus": [278, 548],
-  "Buskerud": [226, 522],
+  "Buskerud": [118, 562],
   "Innlandet": [148, 522]
 };
 
@@ -103,7 +103,6 @@ const countyCalloutTargets = {
   "Østfold": [163, 613],
   "Vestfold": [138, 612],
   "Telemark": [100, 602],
-  "Buskerud": [115, 567],
   "Agder": [81, 628]
 };
 
